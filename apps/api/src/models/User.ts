@@ -33,7 +33,14 @@ userSchema.methods['comparePassword'] = async function (
   return bcrypt.compare(plain, this.passwordHash);
 };
 
-// Never send passwordHash in JSON responses
+// ── Cascade delete: remove all DaySheets when a User is deleted ──────────────
+userSchema.post('findOneAndDelete', async function (doc: IUser | null) {
+  if (!doc) return;
+  const { DaySheetModel } = await import('./DaySheet');
+  await DaySheetModel.deleteMany({ userId: doc._id });
+  console.log(`🗑  Cascade-deleted all DaySheets for user ${doc._id.toString()}`);
+});
+
 userSchema.set('toJSON', {
   transform: (_doc, ret: Partial<IUser> & { __v?: number }) => {
     delete ret.passwordHash;

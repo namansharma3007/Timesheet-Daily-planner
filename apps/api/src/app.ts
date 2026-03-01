@@ -13,11 +13,12 @@ const app: Express = express();
 app.use(helmet());
 
 // ── CORS ──────────────────────────────────────────────────────────────────
+// Allow any origin (web, Flutter web). Flutter mobile bypasses CORS entirely.
 app.use(
   cors({
-    origin: env.CLIENT_URL,
+    origin: true, // Reflects request origin; accepts any frontend
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );

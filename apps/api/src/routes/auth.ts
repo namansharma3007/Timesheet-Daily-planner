@@ -109,4 +109,20 @@ router.get('/me', requireAuth, async (req, res) => {
   sendSuccess<AuthResponse>(res, { user: toPublicUser(user), token });
 });
 
+// DELETE /api/auth/me
+// Permanently deletes the authenticated user.
+// The UserModel post('findOneAndDelete') hook cascades deletion to all DaySheets.
+router.delete('/me', requireAuth, async (req, res) => {
+  const { userId } = req as AuthRequest;
+
+  const user = await UserModel.findByIdAndDelete(userId);
+  if (!user) {
+    ApiErrors.notFound(res, 'User not found');
+    return;
+  }
+
+  // Cascade already fired via Mongoose post-hook in User model.
+  sendSuccess(res, { message: 'Account and all associated data deleted.' });
+});
+
 export default router;

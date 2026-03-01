@@ -21,7 +21,7 @@ const SEED_ENTRIES = [
   { title: 'EOD Wrap-up',          from: '17:00', to: '17:30', color: 6, notes: "Notes & tomorrow's tasks" },
 ];
 
-const router = Router();
+const router: Router = Router();
 
 const loginSchema = z.object({
   email: z.string().email(),

@@ -5,11 +5,27 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": [
+        "PORT",
+        "MONGODB_URI",
+        "JWT_SECRET",
+        "JWT_EXPIRES_IN",
+        "CLIENT_URL",
+        "NODE_ENV"
+      ]
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "env": [
+        "PORT",
+        "MONGODB_URI",
+        "JWT_SECRET",
+        "JWT_EXPIRES_IN",
+        "CLIENT_URL",
+        "NODE_ENV"
+      ]
     },
     "lint": {
       "dependsOn": ["^build"]

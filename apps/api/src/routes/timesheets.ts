@@ -10,7 +10,7 @@ import type {
   UpsertDaySheetResponse,
 } from '@timesheet/types';
 
-const router = Router();
+const router: Router = Router();
 
 // All timesheet routes require auth
 router.use(requireAuth);
@@ -44,7 +44,7 @@ router.get('/:date', async (req, res) => {
     return;
   }
 
-  const { userId } = req as AuthRequest;
+  const { userId } = req as unknown as AuthRequest;
   const sheet = await DaySheetModel.findOne({ userId, date }).lean();
 
   if (!sheet) {
@@ -76,7 +76,7 @@ router.put('/:date', async (req, res) => {
     return;
   }
 
-  const { userId } = req as AuthRequest;
+  const { userId } = req as unknown as AuthRequest;
   const { entries } = parsed.data;
 
   const sheet = await DaySheetModel.findOneAndUpdate(
@@ -88,8 +88,8 @@ router.put('/:date', async (req, res) => {
   sendSuccess<UpsertDaySheetResponse>(res, {
     sheet: {
       userId,
-      date: sheet.date,
-      entries: sheet.entries,
+      date: sheet?.date ?? '',
+      entries: sheet?.entries ?? [],
       updatedAt: (sheet as { updatedAt?: Date }).updatedAt?.toISOString() ?? new Date().toISOString(),
     },
   });
@@ -103,7 +103,7 @@ router.post('/:date/copy-next', async (req, res) => {
     return;
   }
 
-  const { userId } = req as AuthRequest;
+  const { userId } = req as unknown as AuthRequest;
   const source = await DaySheetModel.findOne({ userId, date }).lean();
 
   if (!source || source.entries.length === 0) {
@@ -123,8 +123,8 @@ router.post('/:date/copy-next', async (req, res) => {
   sendSuccess<CopyToNextDayResponse>(res, {
     sheet: {
       userId,
-      date: sheet.date,
-      entries: sheet.entries,
+      date: sheet?.date ?? '',
+      entries: sheet?.entries ?? [],
       updatedAt: (sheet as { updatedAt?: Date }).updatedAt?.toISOString() ?? new Date().toISOString(),
     },
   });

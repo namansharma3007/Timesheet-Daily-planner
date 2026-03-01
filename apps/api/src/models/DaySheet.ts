@@ -51,9 +51,9 @@ const daySheetSchema = new Schema<IDaySheet>(
 daySheetSchema.index({ userId: 1, date: 1 }, { unique: true });
 
 daySheetSchema.set('toJSON', {
-  transform: (_doc, ret) => {
-    delete ret['__v'];
-    return ret;
+  transform: (_doc, ret: any) => {
+    const { __v, ...rest } = ret;
+    return rest;
   },
 });
 

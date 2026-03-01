@@ -35,9 +35,9 @@ userSchema.methods['comparePassword'] = async function (
 
 // Never send passwordHash in JSON responses
 userSchema.set('toJSON', {
-  transform: (_doc, ret) => {
-    delete ret['passwordHash'];
-    delete ret['__v'];
+  transform: (_doc, ret: Partial<IUser> & { __v?: number }) => {
+    delete ret.passwordHash;
+    delete ret.__v;
     return ret;
   },
 });

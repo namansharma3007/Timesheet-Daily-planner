@@ -12,8 +12,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@timesheet/types": "workspace:*",
-    "@timesheet/utils": "workspace:*"
+    "@timesheet/types": "workspace:*"
   },
   "devDependencies": {
     "typescript": "*"

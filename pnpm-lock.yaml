@@ -187,9 +187,6 @@ importers:
       '@timesheet/types':
         specifier: workspace:*
         version: link:../types
-      '@timesheet/utils':
-        specifier: workspace:*
-        version: 'link:'
     devDependencies:
       typescript:
         specifier: '*'
